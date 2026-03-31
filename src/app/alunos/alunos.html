@@ -1,0 +1,42 @@
+<div class="alunos">
+    <h1>Alunos</h1>
+</div>
+<div class="header">
+    <button class="btn-novoAluno" (click)="novoAluno()">Adicionar Aluno</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Matricula</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>Endereço</th>
+            <th>CPF</th>
+            <th>Ano Escolar</th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (aluno of alunos; track $index) {
+        <tr>
+            <td>{{aluno.Id}}</td>
+            <td>{{aluno.Matricula}}</td>
+            <td>{{aluno.Nome}}</td>
+            <td>{{aluno.DataNascimento}}</td>
+            <td>{{aluno.Telefone}}</td>
+            <td>{{aluno.Email}}</td>
+            <td>{{aluno.Endereco}}</td>
+            <td>{{aluno.Cpf}}</td>
+            <td>{{aluno.AnoEscolar}}</td>
+            <td>
+                <button class="btn-editar" (click)="editarAluno(aluno)">Editar</button>
+                <button class="btn-excluir" (click)="excluirAluno(aluno)">Excluir</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
