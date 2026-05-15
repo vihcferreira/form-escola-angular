@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlunoModel } from '../../modelos/aluno';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Servico } from '../servico';
+import { AlunosService } from '../../services/alunos.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParamMap } from '@angular/router';
 
@@ -13,21 +13,22 @@ import { ParamMap } from '@angular/router';
   styleUrl: './aluno.css',
 })
 export class Aluno {
-  id:number = 0;
+  id: number = 0;
+  aluno: AlunoModel = new AlunoModel();
 
-  constructor(private router: Router, private servico: Servico, private route: ActivatedRoute) { 
+  constructor(private router: Router, private alunosService: AlunosService, private route: ActivatedRoute) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id = +params.get('id')!;
       if (this.id > 0) {
-        const alunoExistente = this.servico.obterPorId(this.id);
-        if (alunoExistente) {
-           this.aluno = { ...alunoExistente };
-        }
+        // Busca assíncrona do aluno na API para edição
+        this.alunosService.obterPorId(this.id).subscribe((alunoExistente) => {
+          if (alunoExistente) {
+            this.aluno = { ...alunoExistente };
+          }
+        });
       }
     });
   }
-
-  aluno: AlunoModel = new AlunoModel()
 
   voltar() {
     this.router.navigate(['/alunos'])
@@ -35,11 +36,13 @@ export class Aluno {
 
   salvar() {
     if (this.aluno.Id) {
-      this.servico.atualizarAluno(this.aluno);
-      this.voltar();
+      this.alunosService.alterar(this.aluno.Id, this.aluno).subscribe(()=>{
+        this.voltar();
+      });
     } else {
-      this.servico.inserirAluno(this.aluno);
-      this.voltar();
+      this.alunosService.inserir(this.aluno).subscribe(()=>{
+        this.voltar();
+      });
     }
   }
 }

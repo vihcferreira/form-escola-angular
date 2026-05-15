@@ -17,6 +17,10 @@ export class AlunosService {
     return this.http.get<AlunoModel>(`${this.url}/${id}`);
   }
 
+  inserir(aluno: AlunoModel) {
+    return this.http.post<AlunoModel>(this.url, aluno);
+  }
+
   alterar(id: number, aluno: AlunoModel){
     return this.http.put<AlunoModel>(`${this.url}/${id}`, aluno);
   }

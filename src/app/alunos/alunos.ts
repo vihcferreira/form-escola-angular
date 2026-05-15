@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlunoModel } from '../modelos/aluno';
 import { Router } from '@angular/router';
-import { Servico } from './servico';
+import { AlunosService } from '../services/alunos.service';
 
 @Component({
   selector: 'app-alunos',
@@ -12,7 +12,11 @@ import { Servico } from './servico';
 export class Alunos {
   alunos: Array<AlunoModel> = [];
 
-  constructor(private router: Router, private servico: Servico) {
+  constructor(private router: Router, private alunoService: AlunosService) {
+    this.obterAlunos();
+  }
+
+  ngOnInit(){
     this.obterAlunos();
   }
 
@@ -25,11 +29,16 @@ export class Alunos {
   }
 
   excluirAluno(aluno: AlunoModel) {
-    this.servico.excluirAluno(aluno.Id!);
-    this.obterAlunos();
+    if (aluno.Id) {
+      this.alunoService.deletar(aluno.Id).subscribe(() => {
+        this.obterAlunos();
+      });
+    }
   }
 
   obterAlunos() {
-    this.alunos = this.servico.obterAlunos();
+    this.alunoService.listar().subscribe((dadosApi) => {
+      this.alunos = dadosApi;
+    });
   }
 }
