@@ -33,8 +33,13 @@
             <input class="form-control" type="text" id="anoEscolar" name="anoEscolar" [(ngModel)]="aluno.AnoEscolar">
         </div>
     </div>
-    <button type="button" class="btn btn-primary me-2" (click)="salvar()">
-        <i class="bi bi-check-lg"></i> Salvar
-    </button>
-    <button type="button" class="btn btn-secondary" (click)="voltar()">Cancelar</button>
+    
+    <div class="d-flex gap-2 mt-3 w-100">
+        <button type="button" class="btn btn-danger flex-grow-1" (click)="voltar()">
+            <i class="bi bi-x-lg"></i> Cancelar
+        </button>
+        <button type="button" class="btn btn-success flex-grow-1" (click)="salvar()">
+            <i class="bi bi-check-lg"></i> Salvar
+        </button>
+    </div>
 </form>
