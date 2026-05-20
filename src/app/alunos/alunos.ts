@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AlunoModel } from '../modelos/aluno';
 import { Router } from '@angular/router';
 import { AlunosService } from '../services/alunos.service';
@@ -10,7 +10,9 @@ import { AlunosService } from '../services/alunos.service';
   styleUrl: './alunos.css',
 })
 export class Alunos {
-  alunos: Array<AlunoModel> = [];
+  alunos = signal<AlunoModel[]>([]);
+
+  total = computed(() => this.alunos().length);
 
   constructor(private router: Router, private alunoService: AlunosService) {
     this.obterAlunos();
@@ -31,14 +33,14 @@ export class Alunos {
   excluirAluno(aluno: AlunoModel) {
     if (aluno.Id) {
       this.alunoService.deletar(aluno.Id).subscribe(() => {
-        this.obterAlunos();
+        this.alunos.update(lista => lista.filter(a => a.Id !== aluno.Id));
       });
     }
   }
 
   obterAlunos() {
     this.alunoService.listar().subscribe((dadosApi) => {
-      this.alunos = dadosApi;
+      this.alunos.set(dadosApi);
     });
   }
 }

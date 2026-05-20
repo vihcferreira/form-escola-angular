@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { AlunosService } from '../../services/alunos.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParamMap } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-aluno',
-  imports: [FormsModule],
+  imports: [FormsModule, NgxMaskDirective],
   templateUrl: './aluno.html',
   styleUrl: './aluno.css',
 })
